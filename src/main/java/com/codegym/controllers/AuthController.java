@@ -58,7 +58,6 @@ public class AuthController {
         }
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
-
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {

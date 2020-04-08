@@ -83,20 +83,6 @@ public class BookController {
         return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
     }
 
-    @GetMapping("/author/{id}")
-    public ResponseEntity<List<Book>> listAllBooks(@PathVariable Long id) {
-        List<Long> idList = bookRepository.findBookByAuthor(id);
-        List<Book> books = new ArrayList<>();
-        for (Long idBook : idList) {
-            Optional<Book> book = bookService.findById(idBook);
-            book.ifPresent(books::add);
-        }
-        ;
-        if (books.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
-    }
 
     @GetMapping("/date-create")
     public ResponseEntity<List<Book>> listAllBooksByDateCreate() {
@@ -134,7 +120,7 @@ public class BookController {
         Publishing publishing = book.getPublishing();
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
-        Book currentBook = new Book(book.getName(), book.getPrice(), book.getDescription(), book.getAmount(), date, book.getBookPictures(), book.getAuthors(), book.getLanguages(), publishing, category);
+        Book currentBook = new Book(book.getName(), book.getPrice(), book.getDescription(), book.getAmount(), date, book.getBookPictures(), book.getLanguages(), publishing, category);
         bookService.save(currentBook);
         return new ResponseEntity<Optional<Book>>(HttpStatus.CREATED);
     }
@@ -163,7 +149,6 @@ public class BookController {
         currentBook.get().setDescription(book.getDescription());
         currentBook.get().setAmount(book.getAmount());
         currentBook.get().setBookPictures(book.getBookPictures());
-        currentBook.get().setAuthors(book.getAuthors());
         currentBook.get().setLanguages(book.getLanguages());
         currentBook.get().setPublishing(book.getPublishing());
         currentBook.get().setCategory(book.getCategory());
